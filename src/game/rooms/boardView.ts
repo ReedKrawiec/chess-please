@@ -210,6 +210,9 @@ export class boardView extends room<viewState>{
   async initialize(){
     await this.showNextPuzzle();
     this.audio.play("russian",1);
+    setInterval(()=>{
+      this.audio.play("russian",1);
+    },this.audio.get("russian").duration * 1000);
   }
   statef(delta_time: number) {
     super.statef(delta_time);

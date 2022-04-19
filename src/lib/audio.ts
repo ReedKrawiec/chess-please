@@ -22,7 +22,7 @@ export class audio {
       return new Promise<void>((resolve, reject) => {
         this.sounds[key].addEventListener("canplaythrough", (e) => {
           resolve();
-        })
+        });
       })
     })
     try {
@@ -33,11 +33,23 @@ export class audio {
       console.log(e);
     }
   }
+  stop(name: string) {
+    this.sounds[name].pause();
+    this.sounds[name].currentTime = 0;
+  }
+  pause(name: string) {
+    this.sounds[name].pause();
+  }
+  get(name: string) {
+    return this.sounds[name];
+  }
   play(name: string, volume: number) {
     let a = this.sounds[name];
+    console.log(a.duration)
     a.pause()
     a.currentTime = 0;
     a.volume = volume;
     a.play();
+
   }
 }
