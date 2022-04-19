@@ -13,6 +13,13 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
     <canvas height=800 width=1500 id="target"></canvas>
-    <script src="./van.js"></script>
+    <button> Load </button>
   </body>
+  <script>
+    document.querySelector("button").addEventListener("click", () => {
+      var script = document.createElement("script");
+      script.setAttribute("src","./van.js");
+      document.body.appendChild(script);
+    })
+  </script>
 </html>
