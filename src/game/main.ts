@@ -2,7 +2,7 @@ import { string_dict } from "lib/utils";
 import {Vector,obj_state,room_state} from "../lib/state";
 import {game,GetViewportDimensions,viewport} from "../van";
 
-const PUZZLES_URL = "/home/reed/Github/chess-please/src/game/lichess_db_puzzle.csv";
+const PUZZLES_URL = "/common/home/rbk70/projects/chess-please/src/game/puzzles.csv";
 
 let canvas_element:HTMLCanvasElement = document.getElementById("target") as HTMLCanvasElement;
 

@@ -19,6 +19,7 @@ export class piece extends obj{
   collision = false;
   render = true;
   state:piece_state;
+  static = true;
   params:piece_parameters;
   static default_params:piece_parameters = {
     type: "P",
@@ -80,12 +81,12 @@ export class piece extends obj{
         break;
       case "Q":
         this.sprite_url = "./sprites/chess/white_queen.png";
-        this.width = 16;
+        this.width = 18;
         this.height = 20;
         break;
       case "q":
         this.sprite_url = "./sprites/chess/black_queen.png";
-        this.width = 16;
+        this.width = 18;
         this.height = 20;
         break;
     }
@@ -108,6 +109,7 @@ export class piece extends obj{
       if(this.collidesWithBox({x:mouse.x,y:mouse.y,width:20,height:20})){
         this.getRoom<boardView>().state.dragging = this;
         this.getRoom<boardView>().state.start_drag = this.state.position;
+        this.layer = 2;
       }
     });
   }

@@ -12,7 +12,9 @@ export class audio {
     if (DEBUG) {
       p = path.join(root_path, url);
     }
+    console.log(p);
     this.sounds[name] = new Audio(p);
+    console.log(this.sounds[name]);
   }
   async load() {
     let keys = Object.keys(this.sounds);

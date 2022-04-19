@@ -36,7 +36,7 @@ class boardHud extends HUD {
 export class boardView extends room<viewState>{
   background_url = "./sprites/Error.png";
   render = true;
-  proximity_map:proximity_matrix = new proximity_matrix(2000,19);
+  proximity_map:proximity_matrix = new proximity_matrix(2000,1);
   constructor(game: game<unknown>) {
     super(game, cfig);
     this.cameras.push(
@@ -70,9 +70,9 @@ export class boardView extends room<viewState>{
       console.log(this.objects);
     });
     this.bindControl("mouse0up",exec_type.once,() => {
-      console.log(this.objects);
       if(this.state.dragging){
         let mouse = Poll_Mouse(this.cameras[0]);
+        this.state.dragging.layer = 1;
         if(mouse.x > 700 || mouse.y > 700 || mouse.x < -700 || mouse.y < -700){
           this.state.dragging.state.position = this.state.start_drag;
         } else {
@@ -105,7 +105,7 @@ export class boardView extends room<viewState>{
               this.otherPlayerMove(next_move);
             }
             else {
-              console.log("puzzle done!!!")
+              this.showNextPuzzle();
               g.state.globals.rating += 25;
             }
           }
@@ -120,7 +120,11 @@ export class boardView extends room<viewState>{
       }
     });
     this.bindControl("KeyX", exec_type.once, async () => {
-      let puzzles = g.state.globals.puzzles;
+      
+    });
+  }
+  async showNextPuzzle(){
+    let puzzles = g.state.globals.puzzles;
       let rating = g.state.globals.rating;
       let next_puzzle:puzzle;
       do {
@@ -163,7 +167,6 @@ export class boardView extends room<viewState>{
       }
       let next_move = this.state.puzzle.solution.shift();
       this.otherPlayerMove(next_move);
-    });
   }
   squareToPosition(square: string){
     let rows = ["a","b","c","d","e","f","g","h"];
@@ -200,6 +203,13 @@ export class boardView extends room<viewState>{
   }
   registerParticles() {
 
+  }
+  registerAudio(){
+    this.audio.add("russian","./sounds/Russian.mpga");
+  }
+  async initialize(){
+    await this.showNextPuzzle();
+    this.audio.play("russian",1);
   }
   statef(delta_time: number) {
     super.statef(delta_time);

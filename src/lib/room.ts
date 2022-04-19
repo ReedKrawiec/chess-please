@@ -404,6 +404,9 @@ export class room<T>{
   registerControls(){
 
   }
+  registerAudio(){
+
+  }
   cleanup(){
 
   }

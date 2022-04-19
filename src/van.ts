@@ -584,8 +584,9 @@ export class game<T>{
     }
     x.registerControls();
     x.registerParticles();
+    x.registerAudio();
     this.state.current_room = x;
-    this.state.current_room.initialize();
+    await this.state.current_room.initialize();
     this.drawAllStatics();
     this.state.logic = this.start_logic(logic_loop_interval)
 
