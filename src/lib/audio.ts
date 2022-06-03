@@ -37,6 +37,11 @@ export class audio {
     this.sounds[name].pause();
     this.sounds[name].currentTime = 0;
   }
+  cleanup(){
+    for(let key of Object.keys(this.sounds)){
+      this.stop(key);
+    }
+  }
   pause(name: string) {
     this.sounds[name].pause();
   }

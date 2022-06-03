@@ -15,6 +15,7 @@ import { net_type,Network, Web} from "lib/network";
 import { WorkerPool } from "lib/workers";
 import { obj_state } from "lib/state";
 import { prefabs } from "game/objects/prefabs";
+import { g } from "game/main";
 
 
 
@@ -69,6 +70,11 @@ export function setDebug(x: boolean) {
 
 export function setPaused(x: boolean) {
   PAUSED = x;
+  if(x){
+    let room = g.getRoom();
+    room.audio.cleanup();
+    room.objects.forEach( x => x.audio.cleanup());
+  }
 }
 
 export const render_collision_box = (box: collision_box,color:string = "red") => {
@@ -570,7 +576,10 @@ export class game<T>{
     //Deletes each object in the room (which also unbinds their binds),
     //and unbinds the room's bindings.
     if (this.state.current_room !== undefined) {
+      this.state.current_room.audio.cleanup();
+      this.state.current_room.valid = false;
       while (this.state.current_room.objects.length > 0) {
+        this.state.current_room.objects[0].audio.cleanup();  
         this.state.current_room.objects[0].delete();
       }
       for (let id of this.state.current_room.binds) {

@@ -78,9 +78,9 @@ export function sprite_gen(obj:obj,sprite_width:number,sprite_height:number):Arr
   let width = obj.sprite_sheet.width;
   let height = obj.sprite_sheet.height;
   let sprites:Array<Array<sprite>> = [];
-  for (let b = 0; b < height;b += sprite_height) {
+  for (let b = 0; b < height; b += sprite_height) {
     sprites.push([]);
-    for (let a = 0; a < width;a += sprite_width) {
+    for (let a = 0; a < width; a += sprite_width) {
       sprites[b/sprite_height].push({
         sprite_sheet:obj.sprite_sheet,
         sprite_sheet_buffer:obj.sprite_sheet_buffer,

@@ -15,7 +15,8 @@ interface viewState {
   dragging: piece,
   start_drag: Vector,
   perspective: "w" | "b",
-  puzzle: puzzle
+  puzzle: puzzle,
+  number_correct: number
 }
 
 class boardHud extends HUD {
@@ -57,7 +58,8 @@ export class boardView extends room<viewState>{
       dragging: null,
       start_drag: null,
       perspective: null,
-      puzzle: null
+      puzzle: null,
+      number_correct: 0
     }
   }
   registerControls() {
@@ -107,6 +109,10 @@ export class boardView extends room<viewState>{
             else {
               this.showNextPuzzle();
               g.state.globals.rating += 25;
+              this.state.number_correct += 1;
+              if(this.state.number_correct == 5){
+                this.game.loadRoomString("test");
+              }
             }
           }
           else {
@@ -187,19 +193,21 @@ export class boardView extends room<viewState>{
     if(taken_piece.length > 0){
       taken_piece[0].delete();
     }
-    this.movePiece(ai_piece,end,175); 
+    this.movePiece(ai_piece,end); 
   }
-  movePiece(piece: piece, target: Vector, time:number){
+  movePiece(piece: piece, target: Vector){
     let counter = 0;
     let diff = Vec.sub(target,piece.state.position);
+    console.log(diff);
     let interval = setInterval(() => {
       let offset = Vec.func(diff, (v) => v / 60);
       piece.state.position = Vec.add(piece.state.position, offset);
       counter++;
-      if(counter === 60){
+      let current_diff = Vec.distance(piece.state.position,target);
+      if(current_diff < 5){
         clearInterval(interval);
       }
-    }, time/60);
+    }, 80/60);
   }
   registerParticles() {
 
@@ -211,7 +219,9 @@ export class boardView extends room<viewState>{
     await this.showNextPuzzle();
     this.audio.play("russian",1);
     setInterval(()=>{
-      this.audio.play("russian",1);
+      if(this.valid){
+        this.audio.play("russian",1);
+      }
     },this.audio.get("russian").duration * 1000);
   }
   statef(delta_time: number) {

@@ -175,6 +175,7 @@ export class room<T>{
   binds:number[] = [];
   game:game<unknown>;
   hud:HUD;
+  valid:boolean = true;
   audio = new audio();
   //These text nodes exists in the actual room space, rather than
   //on the hud layer.

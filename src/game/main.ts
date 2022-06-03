@@ -8,7 +8,9 @@ let canvas_element:HTMLCanvasElement = document.getElementById("target") as HTML
 
 export interface game_state{
   rating:number,
-  puzzles: puzzle[]
+  puzzles: puzzle[],
+  inventory:string[],
+  flags:string_dict<string>
 }
 
 export interface puzzle {
@@ -19,6 +21,11 @@ export interface puzzle {
 }
 
 export let g:game<game_state>; 
+export interface item_entry{
+  name:string,
+  obj_name:string,
+  description:string
+}
 
 export function getNextPuzzle(puzzles:puzzle[], target_rating:number, range:number){
   let filtered = puzzles.filter(p => p.rating >= target_rating - range && p.rating <= target_rating + range);
@@ -26,7 +33,25 @@ export function getNextPuzzle(puzzles:puzzle[], target_rating:number, range:numb
     return null;
   }
   return filtered[Math.floor(Math.random() * filtered.length)];
-} 
+};
+
+export const items:string_dict<item_entry> = {
+  "test" : {
+    name:"test",
+    obj_name:"test_item",
+    description:`Deez nuts`
+  },
+  "test2" : {
+    name:"test2",
+    obj_name:"test_item2",
+    description:`Strings are a deceptively complex data structure that are best though off as multi-dimensional vectors. Working with strings in Java is easy. Doing the same in C is horrible.`
+  },
+  "test_char" : {
+    name: "Test Character",
+    obj_name:"test_item",
+    description:"I'm in your inventory !! :o"
+  }
+};
 
 (async function(){
   let puzzles_raw = await fetch(PUZZLES_URL);
@@ -43,7 +68,9 @@ export function getNextPuzzle(puzzles:puzzle[], target_rating:number, range:numb
   puzzles.sort((a,b) => a.rating - b.rating);
   g = new game<game_state>(canvas_element.getContext("2d"),{
     rating: 1600,
-    puzzles
+    puzzles,
+    flags:{},
+  inventory:["test","test2","test","test2","test","test2","test","test2","test","test2"]
   });
-  g.loadRoomString("boardView");
+  g.loadRoomString("test");
 })();
